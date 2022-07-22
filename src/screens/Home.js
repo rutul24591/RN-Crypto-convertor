@@ -48,7 +48,7 @@ export default () => {
       </View>
       <ConversionInput
         text="USD"
-        // value="123"
+        value="123"
         onButtonPress={() => alert('todo!')}
         keyboardType="numeric"
         // eslint-disable-next-line no-console
@@ -56,8 +56,11 @@ export default () => {
       />
       <ConversionInput
         text="GBP"
-        // value="123"
+        value="123"
         onButtonPress={() => alert('todo!')}
+        // eslint-disable-next-line no-console
+        onChangeText={(text) => console.log('text', text)}
+        editable={false}
       />
     </View>
   );
