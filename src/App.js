@@ -1,7 +1,8 @@
 import {registerRootComponent} from 'expo';
 import { LogBox } from 'react-native';
-import Home from './screens/Home';
+// import Home from './screens/Home';
+import Navigation from './config/Navigation';
 
 LogBox.ignoreLogs(['Remote debugger']);
 
-registerRootComponent(Home);
+registerRootComponent(Navigation);

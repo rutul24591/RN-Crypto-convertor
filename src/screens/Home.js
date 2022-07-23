@@ -1,11 +1,23 @@
 
-import React,{ useState, useEffect } from 'react';
-import { View, StyleSheet, StatusBar, Dimensions, Image, Text, ScrollView, Keyboard } from 'react-native';
+import React,{ useState } from 'react';
+import { 
+  View, 
+  StyleSheet, 
+  StatusBar, 
+  Dimensions, 
+  Image, 
+  Text, 
+  ScrollView,
+  TouchableOpacity 
+} from 'react-native';
 import { format } from 'date-fns';
+import { Entypo } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import colors from '../constants/colors';
 import { ConversionInput } from '../components/ConversionInput';
 import { Button } from '../components/Button';
+import { KeyboardSpacer } from '../components/KeyboardSpacer';
 
 const screen = Dimensions.get('window');
 
@@ -17,7 +29,7 @@ const styles = StyleSheet.create({
     // paddingTop: screen.height * 0.2
   },
   content: {
-    paddingTop: screen.height * 0.2
+    paddingTop: screen.height * 0.1
   },
   logoContainer: {
     alignItems: 'center',
@@ -44,11 +56,18 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 13,
     textAlign: 'center',
+  },
+  header: {
+    alignItems: 'flex-end',
+    marginHorizontal: 20,
   }
 });
 
+
 // eslint-disable-next-line react/display-name
-export default () => {
+// export default () => {}
+
+const Home = ({ navigation }) => {
   const baseCurrency = 'USD',
         quoteCurrency = 'GBP';
   
@@ -57,25 +76,17 @@ export default () => {
 
   const [scrollEnabled, setScrollEnabled ] = useState(false);
 
-  useEffect(() => {
-    const showListener = Keyboard.addListener('keyboardDidShow', () => {
-      setScrollEnabled(true);
-    });
-
-    const hideListener = Keyboard.addListener('keyboardDidHide', () => {
-      setScrollEnabled(false);
-    });
-
-    return() => {
-      showListener.remove();
-      hideListener.remove();
-    }
-  },[]);
-
   return (
     <View style={styles.container}>
       <ScrollView scrollEnabled={ scrollEnabled }>
         <StatusBar barStyle="light-content" backgroundColor={colors.blue} />
+
+        <SafeAreaView style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.push('Options')}>
+            <Entypo name='cog' size={32} color={colors.white}/>
+          </TouchableOpacity>         
+        </SafeAreaView>
+        
         <View style={styles.content}>
           <View style={styles.logoContainer}>
             <Image
@@ -114,9 +125,12 @@ export default () => {
 
           <Button text="Convert" onPress={() => alert("Button Pressed")}></Button>
 
-          <View style={{ height :  screen.height}}/>
+          {/* <View style={{ height :  screen.height}}/> */}
+          <KeyboardSpacer onToggle={(keyboardIsVisible) => setScrollEnabled(keyboardIsVisible)}/>
         </View>
       </ScrollView>
     </View>
   );
 };
+
+export default Home;

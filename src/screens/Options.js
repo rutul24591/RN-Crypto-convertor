@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, ScrollView, Linking, Alert } from "react-native";
+import { SafeAreaView, ScrollView, Linking, Alert, StatusBar } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 
 import colors from "../constants/colors";
@@ -24,6 +24,7 @@ export default () => {
       {/*ScrollView is used to provide scroll bar to view content.
       [NOTE] Dont use ScrollView if you have 10000 items, but 10-20 items is good.*/}
       <ScrollView>
+        <StatusBar barStyle="dark-content" backgroundColor={colors.white}/>
         <RowItem
           title="Themes"
           onPress={() => alert("todo!")}
