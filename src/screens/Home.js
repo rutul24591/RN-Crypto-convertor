@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { 
   View, 
   StyleSheet, 
@@ -18,6 +18,7 @@ import colors from '../constants/colors';
 import { ConversionInput } from '../components/ConversionInput';
 import { Button } from '../components/Button';
 import { KeyboardSpacer } from '../components/KeyboardSpacer';
+import { ConversionContext } from '../utils/ConversionContext';
 
 const screen = Dimensions.get('window');
 
@@ -68,17 +69,28 @@ const styles = StyleSheet.create({
 // export default () => {}
 
 const Home = ({ navigation }) => {
-  const [baseCurrency, setBaseCurrency] = useState('USD');
-  const [quoteCurrency, setQuoteCurrency] = useState('GBP');
+  /** Both of the below lines moved to utils/ConversionContext.js to make use of context  */
+  // const [baseCurrency, setBaseCurrency] = useState('USD');
+  // const [quoteCurrency, setQuoteCurrency] = useState('GBP');
   const [value, setValue] = useState('100');
   
   const conversionRate = 0.8435;
   const date = new Date();
 
-  const swapCurrencies = () => {
-    setBaseCurrency(quoteCurrency);
-    setQuoteCurrency(baseCurrency);
-  }
+  const {
+    baseCurrency,
+    quoteCurrency,
+    swapCurrencies,
+  } = useContext(ConversionContext);
+
+  // eslint-disable-next-line no-console
+  console.log("Base Currency: ", baseCurrency);
+
+  /** Below function moved to utils/ConversionContext.js to make use of context  */
+  // const swapCurrencies = () => {
+  //   setBaseCurrency(quoteCurrency);
+  //   setQuoteCurrency(baseCurrency);
+  // }
 
   const [scrollEnabled, setScrollEnabled ] = useState(false);
 
@@ -113,7 +125,14 @@ const Home = ({ navigation }) => {
             text={baseCurrency}
             value={ value }
             // Drilling down props
-            onButtonPress={() => navigation.push('CurrencyList', { title: 'Base Currency', activeCurrency : baseCurrency, onChange: (currency) => setBaseCurrency(currency) })}  
+            onButtonPress={() => 
+              navigation.push('CurrencyList', { 
+                title: 'Base Currency', 
+                // activeCurrency : baseCurrency, 
+                // onChange: (currency) => setBaseCurrency(currency),
+                isBaseCurrency: true
+              })
+            }  
             keyboardType="numeric"
             // eslint-disable-next-line no-console
             onChangeText={(text) => setValue(text)}
@@ -124,7 +143,14 @@ const Home = ({ navigation }) => {
               value && `${(parseFloat(value) * conversionRate).toFixed(2)}`
             }
             // Drilling down props
-            onButtonPress={() => navigation.push('CurrencyList', { title: 'Quote Currency', activeCurrency : quoteCurrency, onChange: (currency) => setQuoteCurrency(currency) })} 
+            onButtonPress={() => 
+              navigation.push('CurrencyList', { 
+                title: 'Quote Currency', 
+                // activeCurrency : quoteCurrency, 
+                // onChange: (currency) => setQuoteCurrency(currency), 
+                isBaseCurrency: false
+              })
+            } 
             // eslint-disable-next-line no-console
             onChangeText={(text) => console.log('text', text)}
             editable={false}

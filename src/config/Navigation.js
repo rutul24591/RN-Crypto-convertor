@@ -9,6 +9,7 @@ import Home from'../screens/Home';
 import Options from '../screens/Options';
 import CurrencyList from "../screens/CurrencyList";
 import colors from '../constants/colors';
+import { ConversionContextProvider } from "../utils/ConversionContext";
 
 // Configure stack navigator
 const MainStack = createStackNavigator();
@@ -71,6 +72,8 @@ const ModalStackScreen = () => (
 // eslint-disable-next-line react/display-name
 export default () => (
     <NavigationContainer>
-        <ModalStackScreen />
+        <ConversionContextProvider>
+            <ModalStackScreen />
+        </ConversionContextProvider>
     </NavigationContainer>
 );
